@@ -1,11 +1,11 @@
-# MGT (MaxSAT for Group Testing)
+# MGT (MaxSAT-based framework for Group Testing)
 
-This file contains the information for an AAAI2020 reader/attender to use the prototype of MGT, in particular the two benchmark of MGT and MGT vs LP-relax.
+MGT is a novel MaxSAT-based framework for solving the decoding phase of group testing. This tool is based on our [AAAI-20 paper](https://bishwamittra.github.io/publication/aaai_2020/AAAI-CiampiconiL.690.pdf).   
 
 ## Installation
-In order to use the python script you need to have python 3 and have installed CPlex library from IBM.
-You must install [MaxHS](http://www.maxhs.org/) solver. (You will find instruction on the web page)
-You must set up the Python [API](https://www.ibm.com/support/knowledgecenter/SSSA5P_12.7.0/ilog.odms.cplex.help/CPLEX/GettingStarted/topics/set_up/Python_setup.html) of CPLEX.
+In order to use this tool, Python 3 is to be installed in the system. 
+The tool primarily uses [MaxHS](https://github.com/fbacchus/MaxHS) as the underlying MaxSAT solver. However, any off-the-shelf MaxSAT solver can be used with a minor modification in the source file. MaxHS requires [CPLEX](https://www.ibm.com/support/pages/downloading-ibm-ilog-cplex-optimization-studio-v1290) to process the arithmetic computation of the MaxSAT problem.
+To setup the Python API of CPLEX, please follow the instruction from [here](https://www.ibm.com/support/knowledgecenter/SSSA5P_12.7.0/ilog.odms.cplex.help/CPLEX/GettingStarted/topics/set_up/Python_setup.html).
 
 ## Usage
 Open your terminal and go to the code folder.
