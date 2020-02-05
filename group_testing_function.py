@@ -27,7 +27,10 @@ def generate_input(n, p_i):
 # and the solution to be recovered
 # n is the number of variables that need to be generate
 # k is the fixed number of faulty item
-def generate_input_k(n, k):
+def generate_input_k(n, k, verbose=False):
+
+    if(verbose):
+        print("\ngenerating a random item vector with ", n ,"items and ", k ," defective items")
     # generate a sparse input to recover
     x = rndm.sample(range(1, n + 1), k)
 

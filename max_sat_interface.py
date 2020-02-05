@@ -1,12 +1,12 @@
 import subprocess as sbp
 
-COMMAND = "maxhs"
+SOLVER = "maxhs"
 BSTSOL = "-printBstSoln"
 CPULIM = "-cpu-lim=100"
 fixed_header = "c\nc comments Weighted Max-SAT\nc\np wcnf "
 hard_weight = 1000000000
 soft_weight = 1
-input_for_max_HS = "max_sat_input"
+input_for_max_HS = "temp/max_sat_input"
 output_data_set = "data set"
 SEP1 = "nv"
 SEP12 = "Best Model Found:"
@@ -23,7 +23,7 @@ def call_Max_Sat(n):
     # get the output
     # BSTSOL requires to output the best solution found in case the solving is stopped before finding the actual optimum
     # CPULIM limit the time in finding the optimum solution
-    output_string = str(sbp.run([COMMAND, BSTSOL, CPULIM, input_for_max_HS], stdout=sbp.PIPE).stdout)
+    output_string = str(sbp.run([SOLVER, BSTSOL, CPULIM, input_for_max_HS], stdout=sbp.PIPE).stdout)
 
     time_string = output_string.split(CPUTIME)[1]
     time = float(time_string.split("\\")[0])

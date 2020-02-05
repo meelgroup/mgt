@@ -28,15 +28,26 @@ class Trial:
         self.lp_t_h_c = []  # temporary hamming distance
         self.var = var
 
-def main_comparison_maxhs_lp(n, p, noiseless, u):
+def main_comparison_maxhs_lp(n=100, p=0.03, noiseless=True,noise_probability = 0.05, u=0, verbose=False):
+
+    if(verbose):
+        print("Comparative performance of MaxSAT and LP-relaxed encoding while solving the decoding phase of group testing")
+        print("- number of items: ", n)
+        print("- probability of defectivity: ", p)
+        print("- noiseless testing:", noiseless)
+        if(not noiseless):
+           print("- probability of noise: ", noise_probability)
+        print("- index of experiment:", u)
+
+
+
     k = round(n * p)
 
     x = gtf.generate_input_k(n, k)
 
     x_s = [1 if i in x else 0 for i in range(1, n + 1)]
 
-    noise_probability = 0.05
-
+    
     T = [1, int(n / (5 * np.log2(n)) + 1)]
 
     # generate T
@@ -78,8 +89,11 @@ def main_comparison_maxhs_lp(n, p, noiseless, u):
     tr = nw_trials[0]
 
     # for every t number of tests
+    if(verbose):
+        print("\nperforming tests\n")
     for t in T:
-        print(t)
+        if(verbose):
+            print("- number of tests: ", t)
 
         time_lp = []
         time_maxhs = []

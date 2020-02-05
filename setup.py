@@ -1,5 +1,5 @@
-DIR = "data-output/"   # DIR to put data to
-DIR2 = "plot-output/"         # DIR to put plot to
+DIR = "temp/"   # DIR to put data to
+DIR2 = "plots/"         # DIR to put plot to
 OUT_NAME = "output_file"
 EXTENSION = ".out"
 CMP = "_comparison"

@@ -9,6 +9,8 @@ from setup import EXTENSION
 from setup import number_of_trials
 
 # Class of object to contain trials information
+
+
 class Trial:
     def __init__(self, var):
         self.E = []  # mean error
@@ -18,17 +20,28 @@ class Trial:
         self.var = var
 
 
-def main_varying_maxhs(n, p, noiseless, u):
+def main_varying_maxhs(n=100, p=.03, noiseless=True, noise_probability = 0.05, u=0, verbose=False):
+
+    # u = index of the experiments
+
+    
+    if(verbose):
+        print("Solving decoding phase of group testing using MaxSAT")
+        print("- number of items: ", n)
+        print("- probability of defectivity: ", p)
+        print("- noiseless testing:", noiseless)
+        if(not noiseless):
+           print("- probability of noise: ", noise_probability)
+        print("- index of experiment:", u)
 
     n_trials = number_of_trials
 
     k = round(n * p)
 
-    x = gtf.generate_input_k(n, k)
+    x = gtf.generate_input_k(n, k, verbose)
 
     x_s = [1 if i in x else 0 for i in range(1, n + 1)]
 
-    noise_probability = 0.05
 
     lambda_w = round((np.log((1 - noise_probability) / noise_probability)) / (np.log((1 - (k / n)) / (k / n))), 2)
 
@@ -65,8 +78,11 @@ def main_varying_maxhs(n, p, noiseless, u):
     t_maxhs = []
 
     # for every t number of tests
+    if(verbose):
+        print("\nperforming tests\n")
     for t in T:
-        print(t)
+        if(verbose):
+            print("- number of tests: ", t)
 
         for tr in nw_trials:
             tr.t_e = []  # blank temporary
@@ -126,4 +142,3 @@ def main_varying_maxhs(n, p, noiseless, u):
         output_string += str(t_maxhs) + "\n"
 
         output_file.write(output_string)
-

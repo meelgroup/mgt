@@ -19,25 +19,27 @@ d = 0.05
 FILE_2 = "output_file"
 
 # binomial cofficient, n choosr r
+
+
 def ncr(n, r):
-    print (n)
-    print (r)
+    # print(n)
+    # print(r)
     r = min(r, n-r)
     numer = reduce(op.mul, range(n, n-r, -1), 1)
     denom = reduce(op.mul, range(1, r+1), 1)
     return numer / denom
 
 # calculate binary entropy of Bernoulli(p)
+
+
 def bin_entropy(p):
     return (-p)*np.log2(p)-(1-p)*np.log2(1-p)
 
 
 # function to parse output file that contains both MGT and LP accuracy and time results
-def parser_comparison(u):
+def parser_comparison(u=0):
 
     for i in range(u + 1):
-
-        print(i)
 
         if os.path.isfile(DIR + FILE_GENERAL_CMP + str(i) + EXTENSION):
 
@@ -61,11 +63,12 @@ def parser_comparison(u):
             print_accuracy(n, k, lambdam, T, noiseless, E, P, lp_E, lp_P)
 
 
-def parser(u):
+def parser(u=0, verbose=False):
 
     for i in range(u + 1):
 
-        print(i)
+        if(verbose):
+            print("showing the plot")
 
         if os.path.isfile(DIR + FILE_GENERAL + str(i) + EXTENSION):
 
@@ -187,7 +190,7 @@ def print_phase_transition(n, k, lambda_w, tests, noiseless, t_maxsat, t_lp):
         non_asym_string = '(2^m) / {n \choose k}'
 
         for i in range(len(tests)):
-            bound.append(np.log2(ncr(n,k)))
+            bound.append(np.log2(ncr(n, k)))
 
         if n < 1000:
             for m in tests:

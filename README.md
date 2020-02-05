@@ -3,58 +3,62 @@
 MGT is a novel MaxSAT-based framework for solving the decoding phase of group testing. This tool is based on our [AAAI-20 paper](https://bishwamittra.github.io/publication/aaai_2020/AAAI-CiampiconiL.690.pdf).   
 
 ## Installation
-In order to use this tool, Python 3 is to be installed in the system. 
-The tool primarily uses [MaxHS](https://github.com/fbacchus/MaxHS) as the underlying MaxSAT solver. However, any off-the-shelf MaxSAT solver can be used with a minor modification in the source file. MaxHS requires [CPLEX](https://www.ibm.com/support/pages/downloading-ibm-ilog-cplex-optimization-studio-v1290) to process the arithmetic computation of the MaxSAT problem.
+The scripts are compatible with Python 3 or higher. 
+The tool  uses [MaxHS](https://github.com/fbacchus/MaxHS) as the underlying MaxSAT solver.  MaxHS requires [CPLEX](https://www.ibm.com/support/pages/downloading-ibm-ilog-cplex-optimization-studio-v1290) to process the arithmetic computation of the MaxSAT problem.
 To setup the Python API of CPLEX, please follow the instruction from [here](https://www.ibm.com/support/knowledgecenter/SSSA5P_12.7.0/ilog.odms.cplex.help/CPLEX/GettingStarted/topics/set_up/Python_setup.html).
 
+## Scripts Description
+
+``mgt_benchmarks.py`` contains the subroutine ``main_varying_maxhs`` to generate  and solve a group testing instance given the number of samples `n`, probability of defective items `p`, type of tests (noiseless or noisy), and probability of noisy tests (in case of noisy test). This subroutine calls a set of supporting subroutines from ``group_testing_function.py``,  ``max_sat_interface.py``, and ``exp_script.py``. More specifically,  ``group_testing_function.py`` contains useful scripts to generate a random item vector, pool matrix, and to compute results after recovering the items. ``max_sat_interface.py`` acts as an interface to call a MaxSAT solver to solve the group testing instance. This script can be modified to use any off-the-shelf MaxSAT solver for solving the same problem. ``exp_script.py`` contains subroutines to show the experimental results as plots. 
+
+To compare MaxSAT-based framework with [LP-relaxed](https://ieeexplore.ieee.org/document/6288622) (linear programming relaxation) approach, one would call the subroutine ``main_comparison_maxhs_lp`` from ``mgt_lp_comparison.py`` script. Moreover, ``general_lp_interface.py`` acts as an interface for calling a LP solver (the default choice is CPLEX) to solve the group testing instance. 
+
+Additionally, ``setup.py`` contains different choices including the directory of temporary files and generated plots.
+
+
+
 ## Usage
-Open your terminal and go to the code folder.
 
-In general the framework works with two separated modules. The first (mgt_benchmark.py or mgt_lp_comparison.py), generate the group testing instance, perform the encoding and solve it generating the solution data output file (saved in data-output subfolder). The second parse the output data and then plot it using matplotlib(saved in plot-output subfolder).
-
-You can modify the sample script or import the python module and run them. 
-In the first case there is already a script example, so please refer to that.
-
-```bash
-python experiment_script.py
+To solve a noiseless group testing instance using MaxSAT, run the following commands.
 ```
-
-There are two main function, one for each of the two process (generate data, plot it)
-To generate data from MGT
-```python
-main_varying_maxhs(n, p, noiseless, u)
-```
-To generate data from MGT vs LP
-```python
-main_comparison_maxhs_lp(n, p, noiseless, u)
-```
-n is the number of items, p is the ratio faulty/items and noiseless is True for noiseless settings and False for noisy. u is and index number to save the data. (MGT and MGTvsLP data output will be not overwritten if are saved with same u).
-So if you want to use the framework from the console:
-open the python console
-```bash
-python
-```
-then
-```python
 import mgt_benchmark as mgt
-mgt.main_varying_maxhs(250,0.03,True,1)
-import data_to_plot as dtp
-dtp.parser(1)
+import exp_script as plot
+mgt.main_varying_maxhs(n=100, p=0.03, noiseless=True, verbose=True)
+plot.parser(verbose=True)
+```
+The above commands solve a noiseless group testing instance for 100 items with 3% defective items. 
+
+To solve a noisy group testing instance with the probability of noise as 5%, run the following command.
+```
+mgt.main_varying_maxhs(n=100, p=0.03, noiseless=False, noise_probability=0.05, verbose=True)
 ```
 
-or for comparison between MGT and LP-relax (this will plot also computation effort in terms of time, in order to visualize phase transition)
+To compare the performance between the  MaxSAT formulation and the LP formulation, run the following commands. 
 
-```python
+```
 import mgt_lp_comparison as mgt_lp
-mgt_lp.main_comparison(250,0.03,True,1)
-import data_to_plot as dtp
-dtp.parser_comparison(1)
+import exp_script as plot
+mgt_lp.main_comparison_maxhs_lp(n=100, p=0.03, noiseless=True, verbose=True)
+plot.parser_comparison()
 ```
 
-You can modify the script "exp_script.py" or create a new if you prefer. 
-You will find further documentation inside the python modules.
+Similarly, to compare performance in the noisy group testing, run the following command.
+```
+mgt_lp.main_comparison_maxhs_lp(n=100, p=0.03, noiseless=False, noise_probability=0.05, verbose=True)
+```
 
-Thank You
+Run   ``python test.py``, that combines all above commands. 
 
-## License
-[AAAI2020](http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=90881)
+
+# Issues, questions, bugs, etc.
+Please click on "issues" at the top and [create a new issue](https://github.com/meelgroup/mgt/issues). All issues are responded to promptly.
+
+# Contact
+[Bishwamittra Ghosh](https://bishwamittra.github.io/) (bghosh@u.nus.edu)
+
+# How to cite
+@inproceedings{CGSM20,<br />
+author={Ciampiconi, Lorenzo and Ghosh, Bishwamittra and Scarlett, Jonathan and  Meel, Kuldeep S.},<br />
+title={A {MaxSAT}-based Framework for Group Testing},<br />
+booktitle={Proceedings of AAAI},<br />
+year={2020},}
