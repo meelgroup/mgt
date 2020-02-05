@@ -1,0 +1,1 @@
+This is a temporary directory for group testing instances, MaxSAT instances and other auxiliary files.
