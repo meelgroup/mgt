@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # MGT (MaxSAT-based framework for Group Testing)
 
 MGT is a novel MaxSAT-based framework for solving the decoding phase of [Group testing](https://en.wikipedia.org/wiki/Group_testing). This tool is based on our [AAAI-20 paper](https://bishwamittra.github.io/publication/aaai_2020/AAAI-CiampiconiL.690.pdf).   
