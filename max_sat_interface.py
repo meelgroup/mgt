@@ -1,7 +1,7 @@
 import subprocess as sbp
 
 SOLVER = "maxhs"
-BSTSOL = "-printBstSoln"
+BSTSOL = "-printSoln"
 CPULIM = "-cpu-lim=100"
 fixed_header = "c\nc comments Weighted Max-SAT\nc\np wcnf "
 hard_weight = 1000000000
@@ -23,7 +23,8 @@ def call_Max_Sat(n):
     # get the output
     # BSTSOL requires to output the best solution found in case the solving is stopped before finding the actual optimum
     # CPULIM limit the time in finding the optimum solution
-    output_string = str(sbp.run([SOLVER, BSTSOL, CPULIM, input_for_max_HS], stdout=sbp.PIPE).stdout)
+    output_string = str(
+        sbp.run([SOLVER, BSTSOL, CPULIM, input_for_max_HS], stdout=sbp.PIPE).stdout)
 
     time_string = output_string.split(CPUTIME)[1]
     time = float(time_string.split("\\")[0])
@@ -33,17 +34,16 @@ def call_Max_Sat(n):
         output_string = (output_string.split(SEP12))[1]
         output_string = (output_string.split(SEP2)[1]).split(SEP2)[0]
         output_string = (output_string.split(" \\")[0])
-        model_string = (output_string[0:len(output_string) - 1]).split(" ")[1:]
+        model_string = (output_string[0:len(output_string) - 1])[1:]
     else:
         output_string = (output_string.split(SEP1)[1]).split(SEP2)[0]
-        model_string = (output_string[0:len(output_string) - 1]).split(" ")[1:]
+        model_string = (output_string[0:len(output_string) - 1])[1:]
 
     # parse the model into integer
     model = list(map(int, model_string))
     noise = model[n:]
     model = model[:n]
-    model = list(map(lambda x : 1 if x>0 else 0,model))
-
+    model = list(map(lambda x: 1 if x > 0 else 0, model))
     return model, noise, time
 
 
@@ -86,7 +86,8 @@ def output(n, t, x, y, a, noiseless, noise_weight):
                         if element not in neg:
                             nc = nc + 1
                             neg.append(element)
-                            local_hard = str(hard_weight) + " -" + str(element) + " 0\n"
+                            local_hard = str(hard_weight) + \
+                                " -" + str(element) + " 0\n"
                             hard_clauses_string += local_hard
     # noisy settings
     else:
@@ -99,15 +100,18 @@ def output(n, t, x, y, a, noiseless, noise_weight):
                         local_hard += str(element) + " "
                     local_hard += (str(n + i + 1))
                     local_hard += " 0\n"
-                    soft_clauses_string += str(noise_weight) + " -" + str(n + i + 1) + " 0\n"
+                    soft_clauses_string += str(noise_weight) + \
+                        " -" + str(n + i + 1) + " 0\n"
                     hard_clauses_string += local_hard
             else:
                 if a[i]:
                     for element in a[i]:
                         nc = nc + 1
-                        local_hard = str(hard_weight) + " -" + str(element) + " " + str(n + i + 1) + " 0\n"
+                        local_hard = str(hard_weight) + " -" + \
+                            str(element) + " " + str(n + i + 1) + " 0\n"
                         hard_clauses_string += local_hard
-                    soft_clauses_string += str(noise_weight)  + " -" + str(n + i + 1) + " 0\n"
+                    soft_clauses_string += str(noise_weight) + \
+                        " -" + str(n + i + 1) + " 0\n"
 
     # add soft constraint to ensure minimum number of item faulty to max_HS input
     for j in range(1, n + 1):
@@ -135,6 +139,8 @@ def output(n, t, x, y, a, noiseless, noise_weight):
 # lambda is the trade-off between noisy and faulty, we express only the noise weight as
 # the weight associated to the faultiness is fixed to 1
 # for optimization purpose the function directly generate the string to be included in the input file
+
+
 def non_compact_output(n, t, x, y, a, noiseless, noise_weight):
 
     m = n + t
@@ -168,13 +174,15 @@ def non_compact_output(n, t, x, y, a, noiseless, noise_weight):
                 local_hard += " 0\n"
                 hard_clauses_string += local_hard
 
-                soft_clauses_string += str(noise_weight) + " -" + str(n + i + 1) + " 0\n"
+                soft_clauses_string += str(noise_weight) + \
+                    " -" + str(n + i + 1) + " 0\n"
         else:
             if a[i]:
                 # first part of XOR constraint
                 for element in a[i]:
                     nc = nc + 1
-                    local_hard = str(hard_weight) + " -" + str(element) + " " + str(n + i + 1) + " 0\n"
+                    local_hard = str(hard_weight) + " -" + \
+                        str(element) + " " + str(n + i + 1) + " 0\n"
                     hard_clauses_string += local_hard
 
                 # second part of XOR constraint
@@ -200,5 +208,3 @@ def non_compact_output(n, t, x, y, a, noiseless, noise_weight):
         output_file.write(max_HS_input)
 
     return
-
-

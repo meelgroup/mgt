@@ -6,7 +6,7 @@ MGT is a novel MaxSAT-based framework for solving the decoding phase of [Group t
 
 ## Installation
 The scripts are compatible with Python 3 or higher. 
-The tool  uses [MaxHS](https://github.com/fbacchus/MaxHS) as the underlying MaxSAT solver.  MaxHS requires [CPLEX](https://www.ibm.com/support/pages/downloading-ibm-ilog-cplex-optimization-studio-v1290) to process the arithmetic computation of the MaxSAT problem.
+The tool  uses [MaxHS](https://github.com/fbacchus/MaxHS) as the underlying MaxSAT solver (checkout version c8df41ac63e27c2cb32905302e6ede3118b7a07b).  MaxHS requires [CPLEX](https://www.ibm.com/support/pages/downloading-ibm-ilog-cplex-optimization-studio-v1290) to process the arithmetic computation of the MaxSAT problem.
 To setup the Python API of CPLEX, please follow the instruction from [here](https://www.ibm.com/support/knowledgecenter/SSSA5P_12.7.0/ilog.odms.cplex.help/CPLEX/GettingStarted/topics/set_up/Python_setup.html).
 
 ## Scripts Description
